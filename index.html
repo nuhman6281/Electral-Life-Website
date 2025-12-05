@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electral Life Portal - Strategic Pricing Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Chart Container Styling as per requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            /* Base height */
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Custom Scrollbar for a 'Cyber' feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #0ea5e9;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
+        }
+
+        /* Utility for vibrant text gradient */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #38bdf8, #818cf8);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.3);
+            border-color: #38bdf8;
+        }
+
+        /* * CRITICAL PRINT STYLES FOR PAGE BREAKS (New/Adjusted Logic)
+         * Forces a page break before every major section when printing (Ctrl+P / Cmd+P)
+        */
+        @media print {
+
+            /* Ensures that any element with this class starts a new page */
+            .page-break-before {
+                page-break-before: always;
+            }
+
+            /* Hide the navigation bar, footer, and buttons in print view */
+            .no-print,
+            .print-hide-button {
+                display: none !important;
+            }
+
+            /* Ensure background colors are printed for visuals */
+            body,
+            .bg-slate-900 {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+                background-color: #0f172a !important;
+            }
+
+            /* Adjust padding/margins for print space */
+            main {
+                padding-top: 0;
+            }
+
+            section {
+                padding-top: 1rem !important;
+                /* Reduce large top padding on print */
+            }
+        }
+    </style>
+    <!-- 
+        Palette Used: "Electric Blue & Cyber Navy"
+    -->
+</head>
+
+<body class="bg-slate-900 text-slate-200 font-sans antialiased selection:bg-sky-500 selection:text-white">
+
+    <!-- Navbar / Header -->
+    <header class="sticky top-0 z-50 bg-slate-900/95 backdrop-blur border-b border-slate-700 shadow-lg no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🗳️</span>
+                <h1 class="text-xl md:text-2xl font-bold tracking-tight text-white">ELECTRAL <span
+                        class="text-sky-400">LIFE</span></h1>
+            </div>
+            <nav class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#overview" class="hover:text-sky-400 transition">Strategic Overview</a>
+                <a href="#comparison" class="hover:text-sky-400 transition">Plan Capabilities</a>
+                <a href="#details" class="hover:text-sky-400 transition">Package Details</a>
+                <a href="#ai-strategist" class="hover:text-yellow-400 transition">✨ AI Strategist</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+
+        <!-- Section 1: Introduction (Page 1) -->
+        <section class="text-center space-y-6">
+            <h2 class="text-4xl md:text-6xl font-extrabold text-white">
+                Election Management <br>
+                <span class="text-gradient">Redefined for Victory</span>
+            </h2>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-slate-400">
+                From hyper-local booth management to national-scale operations, select the strategic tier that empowers
+                your campaign with data, security, and intelligence.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+                <div class="bg-slate-800 border border-slate-700 px-6 py-3 rounded-full flex items-center gap-2">
+                    <span class="text-sky-400">🛡️</span> Cyber-Grade Security
+                </div>
+                <div class="bg-slate-800 border border-slate-700 px-6 py-3 rounded-full flex items-center gap-2">
+                    <span class="text-indigo-400">📊</span> Real-Time Analytics
+                </div>
+                <div class="bg-slate-800 border border-slate-700 px-6 py-3 rounded-full flex items-center gap-2">
+                    <span class="text-yellow-400">👥</span> Field Mobilization
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Strategic Overview (Bubble Chart) (Page 2) -->
+        <section id="overview" class="scroll-mt-24 pt-20 page-break-before">
+            <div class="mb-8">
+                <h3 class="text-3xl font-bold text-white mb-2 border-l-4 border-sky-500 pl-4">Scale of Operations</h3>
+                <p class="text-slate-400">
+                    Visualize the capacity of each plan. The chart below maps the relationship between
+                    <strong>Investment (Cost)</strong> and <strong>Voter Reach</strong>.
+                    The size of the bubble represents the <strong>Campaign Duration</strong>.
+                    Choose the plan that matches your constituency size.
+                </p>
+            </div>
+
+            <div class="bg-slate-800 rounded-xl shadow-xl border border-slate-700 p-6">
+                <div class="chart-container">
+                    <canvas id="bubbleChart"></canvas>
+                </div>
+                <div class="mt-4 text-center text-sm text-slate-500">
+                    <span class="inline-block w-3 h-3 rounded-full bg-sky-400 mr-1"></span> Voter Reach vs. Cost vs.
+                    Duration (Bubble Size)
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Comparative Strength (Radar Chart) (Page 3) -->
+        <section id="comparison" class="scroll-mt-24 pt-20 page-break-before">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-3xl font-bold text-white mb-4 border-l-4 border-indigo-500 pl-4">Capability Radar
+                    </h3>
+                    <p class="text-slate-400 mb-6">
+                        Every campaign has different needs. We've scored each plan across five critical dimensions to
+                        help you visualize their strengths:
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-xl mr-3">📶</span>
+                            <div>
+                                <strong class="text-white block">Reach Capacity</strong>
+                                <span class="text-sm text-slate-500">Volume of voter data supported.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-xl mr-3">🧠</span>
+                            <div>
+                                <strong class="text-white block">Intelligence Depth</strong>
+                                <span class="text-sm text-slate-500">From basic booth stats to predictive opponent
+                                    analytics.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-xl mr-3">👥</span>
+                            <div>
+                                <strong class="text-white block">Field Force</strong>
+                                <span class="text-sm text-slate-500">Number of sub-user licenses for ground
+                                    teams.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-xl mr-3">🛡️</span>
+                            <div>
+                                <strong class="text-white block">Security Tier</strong>
+                                <span class="text-sm text-slate-500">Level of cyber monitoring and threat
+                                    detection.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl shadow-xl border border-slate-700 p-6">
+                    <div class="chart-container">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Detailed Packages (Cards) (Page 4) -->
+        <section id="details" class="scroll-mt-24 pt-20 page-break-before">
+            <h3 class="text-3xl font-bold text-white mb-8 text-center">Package Intelligence</h3>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                <!-- Plan 1 -->
+                <div id="card-starter" data-plan="starter"
+                    class="bg-slate-800 border border-slate-700 rounded-2xl p-6 flex flex-col transition-all duration-300 card-hover relative overflow-hidden group">
+                    <div
+                        class="absolute top-0 left-0 w-full h-1 bg-slate-500 group-hover:bg-slate-300 transition-colors">
+                    </div>
+                    <div class="mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Tier 1</span>
+                        <h4 class="text-2xl font-bold text-white mt-1">Starter</h4>
+                        <p class="text-sm text-slate-400">Hyper-Local / Booth Focus</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-white">₹50k</span>
+                        <span class="text-xs text-slate-500">+ GST</span>
+                        <div class="mt-2 text-sm font-mono text-sky-400 bg-sky-400/10 inline-block px-2 py-1 rounded">30
+                            Days</div>
+                    </div>
+
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-green-400 mr-2">✓</span>
+                            5,000 Voters</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-green-400 mr-2">✓</span>
+                            5 Sub-Users</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-green-400 mr-2">✓</span>
+                            Single Booth Analytics</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-green-400 mr-2">✓</span>
+                            Basic WhatsApp Tools</li>
+                    </ul>
+
+                    <button
+                        class="w-full py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors text-sm print-hide-button">Select
+                        Starter</button>
+                </div>
+
+                <!-- Plan 2 -->
+                <div id="card-standard" data-plan="standard"
+                    class="bg-slate-800 border border-sky-600 rounded-2xl p-6 flex flex-col transition-all duration-300 card-hover relative overflow-hidden transform md:-translate-y-4 shadow-2xl shadow-sky-900/20">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-sky-500"></div>
+                    <div class="absolute top-4 right-4 text-sky-500">★</div>
+                    <div class="mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-sky-400">Tier 2</span>
+                        <h4 class="text-2xl font-bold text-white mt-1">Standard</h4>
+                        <p class="text-sm text-slate-400">MLA Constituency</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-white">₹4.0L</span>
+                        <span class="text-xs text-slate-500">+ GST</span>
+                        <div class="mt-2 text-sm font-mono text-sky-400 bg-sky-400/10 inline-block px-2 py-1 rounded">30
+                            Days</div>
+                    </div>
+
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-sky-400 mr-2">✓</span>
+                            300,000 Voters</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-sky-400 mr-2">✓</span> 15
+                            Sub-Users</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-sky-400 mr-2">✓</span>
+                            Full MLA Exit Polls</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-sky-400 mr-2">✓</span>
+                            Pending Voter Reports</li>
+                    </ul>
+
+                    <button
+                        class="w-full py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-medium transition-colors text-sm print-hide-button">Select
+                        Standard</button>
+                </div>
+
+                <!-- Plan 3 -->
+                <div id="card-premium" data-plan="premium"
+                    class="bg-slate-800 border border-indigo-600 rounded-2xl p-6 flex flex-col transition-all duration-300 card-hover relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500"></div>
+                    <div class="mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Tier 3</span>
+                        <h4 class="text-2xl font-bold text-white mt-1">Premium</h4>
+                        <p class="text-sm text-slate-400">MP / Parliament</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-white">₹10.0L</span>
+                        <span class="text-xs text-slate-500">+ GST</span>
+                        <div
+                            class="mt-2 text-sm font-mono text-indigo-400 bg-indigo-400/10 inline-block px-2 py-1 rounded">
+                            60 Days</div>
+                    </div>
+
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-indigo-400 mr-2">✓</span>
+                            500,000 Voters</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-indigo-400 mr-2">✓</span>
+                            25 Sub-Users</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-indigo-400 mr-2">✓</span>
+                            Opponent Analytics</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-indigo-400 mr-2">✓</span>
+                            Proxy Vote Detection</li>
+                    </ul>
+
+                    <button
+                        class="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors text-sm print-hide-button">Select
+                        Premium</button>
+                </div>
+
+                <!-- Plan 4 -->
+                <div id="card-enterprise" data-plan="enterprise"
+                    class="bg-slate-800 border border-yellow-600 rounded-2xl p-6 flex flex-col transition-all duration-300 card-hover relative overflow-hidden group">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-yellow-500"></div>
+                    <div class="mb-4">
+                        <span class="text-xs font-bold uppercase tracking-wider text-yellow-400">Tier 4</span>
+                        <h4 class="text-2xl font-bold text-white mt-1">Enterprise</h4>
+                        <p class="text-sm text-slate-400">National / Large Scale</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold text-white">₹20.0L</span>
+                        <span class="text-xs text-slate-500">+ GST</span>
+                        <div
+                            class="mt-2 text-sm font-mono text-yellow-400 bg-yellow-400/10 inline-block px-2 py-1 rounded">
+                            90 Days</div>
+                    </div>
+
+                    <ul class="space-y-3 mb-8 flex-1">
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-yellow-400 mr-2">✓</span>
+                            1,000,000 Voters</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-yellow-400 mr-2">✓</span>
+                            50 Sub-Users</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-yellow-400 mr-2">✓</span>
+                            24/7 Extended Support</li>
+                        <li class="flex items-center text-sm text-slate-300"><span class="text-yellow-400 mr-2">✓</span>
+                            Deepest Intelligence</li>
+                    </ul>
+
+                    <button
+                        class="w-full py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-white font-medium transition-colors text-sm print-hide-button">Contact
+                        Us</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 5: Team Composition Analysis (Stacked Bar) (Page 5) -->
+        <section class="scroll-mt-24 pt-20 page-break-before">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1 bg-slate-800 rounded-xl shadow-xl border border-slate-700 p-6">
+                    <div class="chart-container">
+                        <canvas id="teamChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="order-1 md:order-2">
+                    <h3 class="text-3xl font-bold text-white mb-4 border-l-4 border-yellow-500 pl-4">Force Multiplier
+                    </h3>
+                    <p class="text-slate-400 mb-4">
+                        A campaign's strength lies in its field capability. The <strong>Electral Life Portal</strong>
+                        scales your command structure from a small tactical unit to a massive field army.
+                    </p>
+                    <p class="text-slate-400">
+                        While every plan includes a central <strong>Main Admin</strong> command, the number of
+                        <strong>Sub-User Licenses</strong> (for field data collection, booth monitoring, and volunteer
+                        management) grows exponentially with higher tiers, allowing for broader ground coverage.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: AI Campaign Strategist (LLM Feature) (Page 6) -->
+
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-800 pt-10 pb-6 text-center mt-20 no-print">
+            <h4 class="text-2xl font-bold text-white mb-2">ELECTRAL LIFE</h4>
+            <p class="text-slate-500 mb-6">Secure. Intelligent. Victorious.</p>
+            <div class="inline-flex items-center justify-center space-x-2 text-slate-400 text-sm">
+                <span>©️ 2025 Electral Life.</span>
+                <span>•</span>
+                <span>Pricing subject to GST.</span>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Chart Logic -->
+    <script>
+        // --- Gemini API Configuration ---
+        const apiKey = "";
+        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+
+        // --- Plan Features Lookup (For LLM Prompting) ---
+        const planFeatures = {
+            starter: "5,000 Voters | 5 Sub-Users | Single Booth Analytics | Basic WhatsApp Tools",
+            standard: "300,000 Voters | 15 Sub-Users | Full MLA Exit Polls | Pending Voter Reports",
+            premium: "500,000 Voters | 25 Sub-Users | Opponent Analytics | Proxy Vote Detection",
+            enterprise: "1,000,000 Voters | 50 Sub-Users | 24/7 Extended Support | Deepest Intelligence"
+        };
+
+        // --- UI Elements ---
+        const resultContainer = document.getElementById('strategy-result-container');
+        const resultDiv = document.getElementById('strategy-result');
+        const errorDiv = document.getElementById('error-message');
+        const spinner = document.getElementById('loading-spinner');
+        const buttonText = document.getElementById('button-text');
+        const strategyButton = document.getElementById('generate-strategy-btn');
+        const citationDiv = document.getElementById('citation-display');
+
+        // --- API Utility Functions ---
+
+        /**
+         * Generic function to call the Gemini API with exponential backoff.
+         * @param {object} payload - The request payload.
+         * @param {number} maxRetries - Maximum number of retries.
+         * @param {number} delay - Initial delay in milliseconds.
+         * @returns {Promise<object>} The API response JSON.
+         */
+        async function callGeminiApi(payload, maxRetries = 5, delay = 1000) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(`${API_URL}?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.ok) {
+                        return await response.json();
+                    } else if (response.status === 429) {
+                        // Too Many Requests, implement backoff
+                        const waitTime = delay * Math.pow(2, i);
+                        console.warn(`API Rate Limit hit. Retrying in ${waitTime}ms...`);
+                        await new Promise(resolve => setTimeout(resolve, waitTime));
+                    } else {
+                        // Handle other non-429 errors
+                        const errorData = await response.json();
+                        throw new Error(`API Error: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+                    }
+                } catch (error) {
+                    if (i === maxRetries - 1) {
+                        throw new Error(`Failed to call Gemini API after ${maxRetries} attempts: ${error.message}`);
+                    }
+                }
+            }
+        }
+
+        /**
+         * Generates a tactical campaign strategy using the Gemini API.
+         */
+        async function generateStrategy() {
+            const planKey = document.getElementById('plan-select').value;
+            const goal = document.getElementById('goal-input').value.trim();
+            const planName = document.getElementById('plan-select').options[document.getElementById('plan-select').selectedIndex].text.split(':')[1].trim();
+            const features = planFeatures[planKey];
+
+            // 1. Validation and UI Setup
+            errorDiv.classList.add('hidden');
+            resultContainer.classList.add('hidden');
+            resultDiv.innerHTML = '';
+            citationDiv.classList.add('hidden');
+
+            if (!goal) {
+                errorDiv.textContent = "Please define a strategic goal before generating a plan.";
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            // Show loading state
+            strategyButton.disabled = true;
+            spinner.classList.remove('hidden');
+            buttonText.textContent = 'Generating...';
+
+            // 2. Construct Prompt and Payload
+            const systemPrompt = "You are a world-class, ruthless political campaign strategist. Your output must be a concise, tactical, and actionable 3-point strategy based *only* on the features provided. Format the response as a bulleted list using markdown (e.g., '* Point 1...'). Do not include any introductory or concluding sentences.";
+
+            const userQuery = `Plan: ${planName} (Features: ${features}). Goal: ${goal}. Generate a 3-point tactical strategy.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+                tools: [{ "google_search": {} }], // Use search grounding for more realistic tactical advice
+            };
+
+            // 3. API Call
+            try {
+                const response = await callGeminiApi(payload);
+
+                const candidate = response.candidates?.[0];
+                const generatedText = candidate?.content?.parts?.[0]?.text || "No strategy could be generated. Try refining your goal.";
+
+                // 4. Extract and Format Citations
+                let sourcesHtml = '';
+                const groundingMetadata = candidate?.groundingMetadata;
+                if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                    const sources = groundingMetadata.groundingAttributions.map(attr => ({
+                        title: attr.web?.title,
+                        uri: attr.web?.uri
+                    })).filter(s => s.uri);
+
+                    if (sources.length > 0) {
+                        sourcesHtml = 'Sources: ' + sources.map((s, index) =>
+                            `<a href="${s.uri}" target="_blank" class="text-sky-400 hover:text-sky-300 underline">${s.title || `Source ${index + 1}`}</a>`
+                        ).join(' | ');
+                        citationDiv.innerHTML = sourcesHtml;
+                        citationDiv.classList.remove('hidden');
+                    }
+                }
+
+                // Convert markdown bullet points to HTML list for presentation (optional, but cleaner)
+                const formattedText = generatedText.replace(/\* /g, '<li class="mb-2 list-disc ml-5">').replace(/\n/g, '');
+
+                resultDiv.innerHTML = `<ul class="space-y-2">${formattedText}</ul>`;
+                resultContainer.classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                errorDiv.textContent = `Error generating strategy: ${error.message}. Please check the console for details.`;
+                errorDiv.classList.remove('hidden');
+                resultDiv.innerHTML = 'An error occurred during generation.';
+            } finally {
+                // Hide loading state
+                strategyButton.disabled = false;
+                spinner.classList.add('hidden');
+                buttonText.textContent = 'Generate Tactical Plan ✨';
+            }
+        }
+
+        // -----------------------------------------------------------
+        // Chart Logic (Kept from previous version)
+        // -----------------------------------------------------------
+
+        // Helper: Label Wrapping Logic (Mandatory)
+        function splitLabel(label) {
+            if (typeof label !== 'string' || label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length <= 16) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // Helper: Tooltip Logic (Mandatory)
+        const commonTooltipOptions = {
+            callbacks: {
+                title: function (tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            },
+            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+            titleColor: '#f8fafc',
+            bodyColor: '#cbd5e1',
+            borderColor: '#38bdf8',
+            borderWidth: 1,
+            padding: 10
+        };
+
+        // Initialize Charts on load
+        window.onload = function () {
+            // Chart 1: Scale of Operations (Bubble Chart)
+            const ctxBubble = document.getElementById('bubbleChart').getContext('2d');
+            new Chart(ctxBubble, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: 'Plans',
+                        data: [
+                            { x: 50000, y: 5000, r: 15, plan: 'Starter' },    // r scaled relative to duration (30/2)
+                            { x: 400000, y: 300000, r: 15, plan: 'Standard' }, // r scaled relative to duration (30/2)
+                            { x: 1000000, y: 500000, r: 30, plan: 'Premium' }, // r scaled relative to duration (60/2)
+                            { x: 2000000, y: 1000000, r: 45, plan: 'Enterprise' } // r scaled relative to duration (90/2)
+                        ],
+                        backgroundColor: [
+                            'rgba(148, 163, 184, 0.7)', // Slate for Starter
+                            'rgba(56, 189, 248, 0.7)',  // Sky for Standard
+                            'rgba(129, 140, 248, 0.7)', // Indigo for Premium
+                            'rgba(250, 204, 21, 0.7)'   // Yellow for Enterprise
+                        ],
+                        borderColor: [
+                            '#94a3b8', '#38bdf8', '#818cf8', '#facc15'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const raw = context.raw;
+                                    return `${raw.plan}: ₹${raw.x.toLocaleString()} | Reach: ${raw.y.toLocaleString()} Voters`;
+                                }
+                            },
+                            ...commonTooltipOptions
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: { display: true, text: 'Investment (INR)', color: '#94a3b8' },
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8', callback: (val) => '₹' + val / 1000 + 'k' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Voter Reach Capacity', color: '#94a3b8' },
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Capability Radar (Radar Chart)
+            const ctxRadar = document.getElementById('radarChart').getContext('2d');
+            const radarData = {
+                labels: ['Reach Capacity', 'Intel Depth', 'Field Force', 'Security Tier', 'Duration'],
+                datasets: [
+                    {
+                        label: 'Starter',
+                        data: [10, 20, 10, 25, 33], // Normalized scores 0-100
+                        borderColor: '#94a3b8',
+                        backgroundColor: 'rgba(148, 163, 184, 0.2)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Standard',
+                        data: [40, 50, 30, 50, 33],
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Premium',
+                        data: [60, 80, 50, 75, 66],
+                        borderColor: '#818cf8',
+                        backgroundColor: 'rgba(129, 140, 248, 0.2)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Enterprise',
+                        data: [100, 100, 100, 100, 100],
+                        borderColor: '#facc15',
+                        backgroundColor: 'rgba(250, 204, 21, 0.2)',
+                        borderWidth: 2
+                    }
+                ]
+            };
+
+            // Wrap labels for Radar
+            radarData.labels = radarData.labels.map(l => splitLabel(l));
+
+            new Chart(ctxRadar, {
+                type: 'radar',
+                data: radarData,
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#334155' },
+                            grid: { color: '#334155' },
+                            pointLabels: { color: '#cbd5e1', font: { size: 12 } },
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#cbd5e1' }
+                        },
+                        tooltip: commonTooltipOptions
+                    }
+                }
+            });
+
+            // Chart 3: Team Composition (Stacked Bar)
+            const ctxTeam = document.getElementById('teamChart').getContext('2d');
+
+            // Wrap labels for Team Chart
+            const teamLabels = ['Starter Plan', 'Standard Plan', 'Premium Plan', 'Enterprise Plan'].map(l => splitLabel(l));
+
+            new Chart(ctxTeam, {
+                type: 'bar',
+                data: {
+                    labels: teamLabels,
+                    datasets: [
+                        {
+                            label: 'Main Admin',
+                            data: [1, 1, 1, 1],
+                            backgroundColor: '#f8fafc',
+                        },
+                        {
+                            label: 'Sub-User Licenses',
+                            data: [5, 15, 25, 50],
+                            backgroundColor: '#38bdf8',
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            stacked: true,
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' },
+                            title: { display: true, text: 'Total User Licenses', color: '#94a3b8' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#cbd5e1' } },
+                        tooltip: commonTooltipOptions
+                    }
+                }
+            });
+        };
+
+    </script>
+
+    <!-- 
+        PLAN NARRATIVE SUMMARY:
+        1. Introduction: Hooks the user with the concept of "Victory Redefined".
+        2. Overview: Uses a Bubble Chart to instantly convey the massive scale difference between plans (Cost vs Reach).
+        3. Comparison: A Radar Chart allows users to see the "shape" of each plan's strengths.
+        4. Details: Cards provide the readable, line-by-line data.
+        5. Team Analysis: A stacked bar chart highlights the scalability of the field force.
+        6. AI Strategist: LLM feature to generate tactical plans based on plan features.
+        7. Print Optimization: Added `page-break-before` class and `@media print` styles to force each major section onto its own page when printing.
+    -->
+</body>
+
+</html>
